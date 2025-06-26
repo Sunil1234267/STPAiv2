@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Base styles for light mode */
+html {
+  @apply bg-gray-100 text-gray-900;
+}
+
+/* Dark mode styles */
+html.dark {
+  @apply bg-gray-900 text-white;
+}
+
+/* Custom scrollbar for better UX */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #2d3748; /* gray-800 */
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #4a5568; /* gray-700 */
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #6b7280; /* gray-600 */
+}
+
+/* Dark mode scrollbar */
+html.dark .custom-scrollbar::-webkit-scrollbar-track {
+  background: #1a202c; /* gray-900 */
+}
+
+html.dark .custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #2d3748; /* gray-800 */
+}
+
+html.dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #4a5568; /* gray-700 */
+}
