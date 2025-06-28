@@ -9,7 +9,6 @@ interface ProfileData {
   id: string;
   username: string | null;
   full_name: string | null;
-  company_name: string | null;
   avatar_url: string | null;
   website: string | null;
   role: string;
@@ -24,7 +23,6 @@ const Profile: React.FC = () => {
   const [formData, setFormData] = useState({
     username: '',
     full_name: '',
-    company_name: '',
     website: '',
   });
   const [passwordChange, setPasswordChange] = useState({
@@ -70,7 +68,7 @@ const Profile: React.FC = () => {
       setLoading(true);
       const { data, error, status } = await supabase
         .from('profiles')
-        .select(`id, username, full_name, company_name, website, avatar_url, role`)
+        .select(`id, username, full_name, website, avatar_url, role`)
         .eq('id', userId)
         .single();
 
@@ -83,7 +81,6 @@ const Profile: React.FC = () => {
         setFormData({
           username: data.username || '',
           full_name: data.full_name || '',
-          company_name: data.company_name || '',
           website: data.website || '',
         });
       } else {
@@ -92,7 +89,6 @@ const Profile: React.FC = () => {
           id: userId,
           username: userEmail.split('@')[0], // Default username from email
           full_name: '',
-          company_name: '',
           website: '',
           role: 'user',
         });
@@ -132,7 +128,6 @@ const Profile: React.FC = () => {
         id: session.user.id,
         username: formData.username,
         full_name: formData.full_name,
-        company_name: formData.company_name,
         website: formData.website,
         updated_at: new Date().toISOString(),
       };
@@ -300,23 +295,6 @@ const Profile: React.FC = () => {
                       name="full_name"
                       className="w-full p-3 pl-10 rounded-md bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                       value={formData.full_name}
-                      onChange={handleProfileChange}
-                      disabled={!editMode || loading}
-                    />
-                  </div>
-                </div>
-                <div>
-                  <label htmlFor="company_name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Company Name
-                  </label>
-                  <div className="relative">
-                    <User size={20} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                    <input
-                      type="text"
-                      id="company_name"
-                      name="company_name"
-                      className="w-full p-3 pl-10 rounded-md bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      value={formData.company_name}
                       onChange={handleProfileChange}
                       disabled={!editMode || loading}
                     />

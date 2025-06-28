@@ -45,7 +45,7 @@ const Dashboard: React.FC<DashboardProps> = ({ session, userRole }) => {
       <div className="container mx-auto py-8">
         <ScrollReveal delay={0}>
           <h1 className="text-4xl font-extrabold text-center mb-6 text-gray-800 dark:text-white">
-            Welcome to Your Dashboard, {session?.user?.email?.split('@')[0].charAt(0).toUpperCase() + session?.user?.email?.split('@')[0].slice(1) || 'User'}!
+            Welcome to Your Dashboard, {session?.user?.email?.split('@')[0] || 'User'}!
           </h1>
         </ScrollReveal>
         <ScrollReveal delay={100}>
