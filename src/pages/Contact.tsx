@@ -1,9 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Mail, Phone, MapPin, Send } from 'lucide-react';
-import ScrollReveal from '../components/ScrollReveal'; // Import ScrollReveal
+import ScrollReveal from '../components/ScrollReveal';
+import { supabase } from '../supabaseClient';
+
+// Define the form data type
+interface ContactFormData {
+  ticket_number: string;
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+}
 
 const Contact: React.FC = () => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<ContactFormData>({
+    ticket_number: '',
     name: '',
     email: '',
     subject: '',
@@ -11,6 +22,33 @@ const Contact: React.FC = () => {
   });
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const [responseMessage, setResponseMessage] = useState<string | null>(null);
+
+  // Auto-fill user data if logged in
+  useEffect(() => {
+    const fetchUser = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        const userId = session.user.id;
+        // Fetch profile for name/email
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('full_name, email')
+          .eq('id', userId)
+          .single();
+        setFormData(prev => ({
+          ...prev,
+          name: profile?.full_name || '',
+          email: profile?.email || '',
+        }));
+      }
+    };
+    fetchUser();
+  }, []);
+
+  // Generate a unique 5-digit ticket number
+  const generateTicketNumber = () => {
+    return Math.floor(10000 + Math.random() * 90000).toString();
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -21,19 +59,40 @@ const Contact: React.FC = () => {
     e.preventDefault();
     setStatus('submitting');
     setResponseMessage(null);
-
+    let ticketNumber = generateTicketNumber();
+    // Ensure uniqueness (basic, not 100% collision-proof)
+    let isUnique = false;
+    for (let i = 0; i < 5 && !isUnique; i++) {
+      const { data } = await supabase
+        .from('public_queries')
+        .select('ticket_number')
+        .eq('ticket_number', ticketNumber);
+      if (!data || data.length === 0) {
+        isUnique = true;
+      } else {
+        ticketNumber = generateTicketNumber();
+      }
+    }
+    if (!isUnique) {
+      setStatus('error');
+      setResponseMessage('Failed to generate a unique ticket number. Please try again.');
+      return;
+    }
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
-
-      // In a real application, you would send this data to a backend API
-      console.log('Form Data Submitted:', formData);
-
+      const { error } = await supabase
+        .from('public_queries')
+        .insert({
+          ticket_number: ticketNumber,
+          name: formData.name,
+          email: formData.email,
+          subject: formData.subject,
+          message: formData.message,
+        });
+      if (error) throw error;
       setStatus('success');
-      setResponseMessage('Your message has been sent successfully! We will get back to you soon.');
-      setFormData({ name: '', email: '', subject: '', message: '' }); // Clear form
-    } catch (err) {
-      console.error('Contact form submission error:', err);
+      setResponseMessage(`Your message has been sent! Your ticket number is: ${ticketNumber}`);
+      setFormData({ ticket_number: '', name: '', email: '', subject: '', message: '' });
+    } catch (err: any) {
       setStatus('error');
       setResponseMessage('Failed to send your message. Please try again later.');
     }

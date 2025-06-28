@@ -32,6 +32,10 @@ const Header: React.FC<HeaderProps> = ({ session, userRole }) => {
     setIsMobileMenuOpen(false);
   }, [location.pathname]);
 
+  // Determine if current path is an admin or contributor page
+  const isAdminPage = location.pathname.startsWith('/admin');
+  const isContributorPage = location.pathname.startsWith('/contributor');
+
   // Define navigation links. Home link is conditional based on session.
   const navLinks = [
     { name: 'Designs', path: '/designs', icon: Palette },
@@ -60,6 +64,16 @@ const Header: React.FC<HeaderProps> = ({ session, userRole }) => {
         <Link to="/" className="text-2xl font-bold text-gray-800 dark:text-white flex items-center space-x-2">
           <img src={`/logo-${theme}.png`} alt="Logo" className="h-8 w-auto" />
           <span>SunilTextile.AI</span>
+          {isAdminPage && userRole === 'admin' && (
+            <span className="ml-2 px-2 py-1 text-sm font-semibold bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200 rounded-full">
+              Admin
+            </span>
+          )}
+          {isContributorPage && userRole === 'contributor' && (
+            <span className="ml-2 px-2 py-1 text-sm font-semibold bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 rounded-full">
+              Contributor
+            </span>
+          )}
         </Link>
 
         {/* Desktop Navigation */}
@@ -103,6 +117,14 @@ const Header: React.FC<HeaderProps> = ({ session, userRole }) => {
                   className={getLinkClassName('/admin/dashboard')}
                 >
                   Admin
+                </Link>
+              )}
+              {userRole === 'contributor' && (
+                <Link
+                  to="/contributor/dashboard"
+                  className={getLinkClassName('/contributor/dashboard')}
+                >
+                  Contributor
                 </Link>
               )}
               <button
@@ -196,6 +218,16 @@ const Header: React.FC<HeaderProps> = ({ session, userRole }) => {
                   >
                     <Shield size={20} />
                     <span>Admin Dashboard</span>
+                  </Link>
+                )}
+                {userRole === 'contributor' && (
+                  <Link
+                    to="/contributor/dashboard"
+                    className={getMobileLinkClassName('/contributor/dashboard')}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    <Shield size={20} /> {/* Using Shield for now, can be changed */}
+                    <span>Contributor Dashboard</span>
                   </Link>
                 )}
                 <button

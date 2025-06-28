@@ -3,7 +3,7 @@ import { supabase } from '../supabaseClient';
 import { Session } from '@supabase/supabase-js';
 import { useNavigate } from 'react-router-dom';
 import { Mail, Lock, UserPlus, LogIn } from 'lucide-react';
-import ScrollReveal from '../components/ScrollReveal'; // Import ScrollReveal
+import ScrollReveal from '../components/ScrollReveal';
 
 interface AuthProps {
   session: Session | null;
@@ -30,7 +30,7 @@ const Auth: React.FC<AuthProps> = ({ session }) => {
           email,
           password,
           options: {
-            emailRedirectTo: window.location.origin, // Redirects back to the app after email confirmation (if enabled)
+            emailRedirectTo: window.location.origin,
             data: {
               role: 'user', // Default role for new users
             },
@@ -57,7 +57,7 @@ const Auth: React.FC<AuthProps> = ({ session }) => {
 
         setMessage('Logged in successfully!');
         setMessageType('success');
-        navigate('/dashboard'); // Redirect to dashboard on successful login
+        // App.tsx's useEffect will handle the redirection based on the session and role
       }
     } catch (error: any) {
       setMessage(error.message);
@@ -68,7 +68,7 @@ const Auth: React.FC<AuthProps> = ({ session }) => {
   };
 
   if (session) {
-    navigate('/dashboard'); // Redirect if already logged in
+    // If session exists, App.tsx's useEffect will handle the redirection
     return null;
   }
 
@@ -76,7 +76,6 @@ const Auth: React.FC<AuthProps> = ({ session }) => {
     <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-blue-500 to-purple-600 dark:from-gray-900 dark:to-black text-gray-900 dark:text-white transition-colors duration-300">
       <ScrollReveal delay={0}>
         <div className="bg-white dark:bg-gray-800 p-10 rounded-2xl shadow-2xl w-full max-w-md border border-gray-200 dark:border-gray-700 transform transition-all duration-300 hover:scale-[1.01] relative overflow-hidden">
-          {/* Subtle background gradient for the form block itself */}
           <div className="absolute inset-0 bg-gradient-to-br from-gray-50/50 to-white/50 dark:from-gray-700/50 dark:to-gray-800/50 opacity-20 rounded-2xl"></div>
           <div className="relative z-10">
             <h1 className="text-4xl font-extrabold text-center mb-4 text-gray-800 dark:text-white tracking-tight">

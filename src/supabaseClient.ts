@@ -1,13 +1,13 @@
-import { createClient, Session } from '@supabase/supabase-js' // Import Session
+import { createClient, Session } from '@supabase/supabase-js'; // Import Session
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
 let supabase: any; // Declare supabase at the top level
 
 if (!supabaseUrl || !supabaseAnonKey) {
-  console.error('Supabase URL or Anon Key is missing in environment variables.')
-  console.error('Please check your .env file and ensure VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY are set.')
+  console.error('Supabase URL or Anon Key is missing in environment variables.');
+  console.error('Please check your .env file and ensure VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY are set.');
   
   // Create a mock client to prevent the app from crashing
   // This allows the app to run while showing appropriate error messages
@@ -25,9 +25,9 @@ if (!supabaseUrl || !supabaseAnonKey) {
       update: () => Promise.reject(new Error('Supabase not configured')),
       delete: () => Promise.reject(new Error('Supabase not configured'))
     })
-  } as any
+  } as any;
 } else {
-  supabase = createClient(supabaseUrl, supabaseAnonKey)
+  supabase = createClient(supabaseUrl, supabaseAnonKey);
 }
 
-export { supabase }
+export { supabase };

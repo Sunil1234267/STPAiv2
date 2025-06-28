@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Session } from '@supabase/supabase-js';
 import { useNavigate } from 'react-router-dom';
-import { LayoutDashboard, Palette, ShoppingBag, MessageSquare, User, Settings, DollarSign, Shield } from 'lucide-react';
-import ScrollReveal from '../components/ScrollReveal'; // Import ScrollReveal
+import { LayoutDashboard, Palette, ShoppingBag, MessageSquare, User, Settings, DollarSign, Shield, Mail } from 'lucide-react';
+import ScrollReveal from '../components/ScrollReveal';
 
 interface DashboardProps {
   session: Session | null;
@@ -33,7 +33,7 @@ const Dashboard: React.FC<DashboardProps> = ({ session, userRole }) => {
     { name: 'My Designs', description: 'View and manage your AI-generated textile designs.', icon: Palette, link: '/designs' },
     { name: 'My Orders', description: 'Track the status of your textile orders.', icon: ShoppingBag, link: '/orders' },
     { name: 'Chatbot Assistant', description: 'Get instant help and creative ideas from our AI chatbot.', icon: MessageSquare, link: '/chatbot' },
-    // Removed 'Profile Settings'
+    { name: 'Contact Us', description: 'Send us a message for support or inquiries.', icon: Mail, link: '/contact' },
   ];
 
   if (userRole === 'admin') {
@@ -56,16 +56,16 @@ const Dashboard: React.FC<DashboardProps> = ({ session, userRole }) => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {dashboardItems.map((item, index) => (
-            <ScrollReveal key={item.name} delay={index * 100 + 200}> {/* Staggered delay */}
+            <ScrollReveal key={item.name} delay={index * 100 + 200}>
               <div
                 onClick={() => navigate(item.link)}
-                className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 flex flex-col items-center text-center cursor-pointer transform hover:scale-105 transition-all duration-300 border border-gray-200 dark:border-gray-700"
+                className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 flex flex-col items-center text-center cursor-pointer transform hover:scale-105 transition-all duration-300 border border-gray-200 dark:border-gray-700 h-[200px] justify-between"
               >
                 <item.icon size={48} className="text-blue-600 dark:text-blue-400 mb-4" />
                 <h2 className="text-xl font-semibold text-gray-800 dark:text-white mb-2">
                   {item.name}
                 </h2>
-                <p className="text-gray-600 dark:text-gray-400 text-sm">
+                <p className="text-gray-600 dark:text-gray-400 text-sm flex-grow flex items-center justify-center">
                   {item.description}
                 </p>
               </div>
