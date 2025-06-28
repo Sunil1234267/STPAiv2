@@ -9,30 +9,213 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      coupons: {
+        Row: {
+          code: string
+          created_at: string
+          created_by: string | null
+          discount_type: string
+          id: string
+          is_active: boolean
+          updated_at: string | null
+          valid_from: string
+          valid_until: string | null
+          value: number
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          created_by?: string | null
+          discount_type?: string
+          id?: string
+          is_active?: boolean
+          updated_at?: string | null
+          valid_from?: string
+          valid_until?: string | null
+          value?: number
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          created_by?: string | null
+          discount_type?: string
+          id?: string
+          is_active?: boolean
+          updated_at?: string | null
+          valid_from?: string
+          valid_until?: string | null
+          value?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "coupons_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      designs: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          description: string | null
+          id: string
+          image_url: string
+          price: number
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          image_url: string
+          price?: number
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          image_url?: string
+          price?: number
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "designs_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      order_items: {
+        Row: {
+          created_at: string
+          design_id: string
+          id: string
+          order_id: string
+          price_at_purchase: number
+          quantity: number
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string
+          design_id: string
+          id?: string
+          order_id: string
+          price_at_purchase?: number
+          quantity?: number
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string
+          design_id?: string
+          id?: string
+          order_id?: string
+          price_at_purchase?: number
+          quantity?: number
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "order_items_design_id_fkey"
+            columns: ["design_id"]
+            isOneToOne: false
+            referencedRelation: "designs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "order_items_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      orders: {
+        Row: {
+          billing_address: string | null
+          created_at: string
+          id: string
+          order_date: string
+          shipping_address: string | null
+          status: string
+          total_amount: number
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          billing_address?: string | null
+          created_at?: string
+          id?: string
+          order_date?: string
+          shipping_address?: string | null
+          status?: string
+          total_amount?: number
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          billing_address?: string | null
+          created_at?: string
+          id?: string
+          order_date?: string
+          shipping_address?: string | null
+          status?: string
+          total_amount?: number
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "orders_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           avatar_url: string | null
+          created_at: string
           full_name: string | null
           id: string
-          role: string
+          email: string
+          role: Database["public"]["Enums"]["user_roles"]
           updated_at: string | null
           username: string | null
           website: string | null
         }
         Insert: {
           avatar_url?: string | null
+          created_at?: string
           full_name?: string | null
           id: string
-          role?: string
+          email: string
+          role?: Database["public"]["Enums"]["user_roles"]
           updated_at?: string | null
           username?: string | null
           website?: string | null
         }
         Update: {
           avatar_url?: string | null
+          created_at?: string
           full_name?: string | null
           id?: string
-          role?: string
+          email?: string
+          role?: Database["public"]["Enums"]["user_roles"]
           updated_at?: string | null
           username?: string | null
           website?: string | null
@@ -47,7 +230,118 @@ export type Database = {
           },
         ]
       }
-      // Add other tables here if they exist
+      query_responses: {
+        Row: {
+          created_at: string
+          id: string
+          query_id: string
+          responder_id: string | null
+          response_text: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          query_id: string
+          responder_id?: string | null
+          response_text: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          query_id?: string
+          responder_id?: string | null
+          response_text?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "query_responses_query_id_fkey"
+            columns: ["query_id"]
+            isOneToOne: false
+            referencedRelation: "user_queries"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "query_responses_responder_id_fkey"
+            columns: ["responder_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      saved_items: {
+        Row: {
+          created_at: string
+          id: string
+          item_id: string
+          item_type: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          item_id: string
+          item_type: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          item_id?: string
+          item_type?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "saved_items_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_queries: {
+        Row: {
+          created_at: string
+          id: string
+          message: string
+          status: string
+          subject: string
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          message: string
+          status?: string
+          subject: string
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          message?: string
+          status?: string
+          subject?: string
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_queries_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -56,7 +350,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      user_roles: "general_user" | "contributor" | "admin"
     }
     CompositeTypes: {
       [_ in never]: never
