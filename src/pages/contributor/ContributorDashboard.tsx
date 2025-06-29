@@ -2,10 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Session } from '@supabase/supabase-js';
 import { useNavigate } from 'react-router-dom';
 import { LayoutDashboard, Upload, FileText, Users, Settings, MessageSquare } from 'lucide-react';
-import ScrollReveal from '../components/ScrollReveal';
-import { supabase } from '../supabaseClient';
-
-// This file has been moved to pages/contributor/ContributorDashboard.tsx for better structure.
+import ScrollReveal from '../../components/ScrollReveal';
+import { supabase } from '../../supabaseClient';
 
 interface ContributorDashboardProps {
   session: Session | null;

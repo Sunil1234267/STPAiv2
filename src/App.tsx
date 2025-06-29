@@ -19,7 +19,7 @@ import AdminDashboard from './pages/admin/AdminDashboard';
 import AdminDesigns from './pages/admin/AdminDesigns';
 import AdminOrderManagement from './pages/admin/AdminOrderManagement';
 import AdminUsers from './pages/admin/AdminUsers';
-import ContributorDashboard from './pages/ContributorDashboard';
+import ContributorDashboard from './pages/contributor/ContributorDashboard';
 import Features from './pages/Features';
 
 const AppContent: React.FC = () => {
@@ -39,13 +39,13 @@ const AppContent: React.FC = () => {
         .single();
 
       if (error) throw error;
-      const role = data?.role || 'user';
+      const role = data?.role || 'general_user'; // Default to 'general_user'
       setUserRole(role);
       return role;
     } catch (error) {
       console.error('Error fetching user role:', error);
-      setUserRole('user'); // Default to user role on error
-      return 'user';
+      setUserRole('general_user'); // Default to 'general_user' role on error
+      return 'general_user';
     }
   };
 
@@ -56,13 +56,13 @@ const AppContent: React.FC = () => {
         const { data: { session } } = await supabase.auth.getSession();
         setSession(session);
         if (session) {
-          const role = await fetchUserRole(session.user.id); // Fetch role and wait for it
+          const role = await fetchUserRole(session.user.id);
           // Redirect based on role if on root, generic dashboard, or auth page
           if (location.pathname === '/' || location.pathname === '/dashboard' || location.pathname === '/auth') {
             if (role === 'admin') {
-              navigate('/admin/dashboard', { replace: true });
+              navigate('/admin/dashboard', { replace: true }); // Corrected path
             } else if (role === 'contributor') {
-              navigate('/contributor/dashboard', { replace: true });
+              navigate('/contributor/dashboard', { replace: true }); // Corrected path
             } else { // Default to general user dashboard
               navigate('/dashboard', { replace: true });
             }
@@ -92,12 +92,12 @@ const AppContent: React.FC = () => {
           // This part is crucial for real-time auth state changes (e.g., after sign-in/sign-up)
           // Always redirect from /auth, or if on root/generic dashboard
           if (location.pathname === '/' || location.pathname === '/dashboard' || location.pathname === '/auth') {
-            if (role === 'admin') {
-              navigate('/admin/dashboard', { replace: true });
+            if (role === 'admin' ) {
+              navigate('/admin/dashboard', { replace: true }); // Path already correct here
             } else if (role === 'contributor') {
-              navigate('/contributor/dashboard', { replace: true });
+              navigate('/contributor/dashboard', { replace: true }); // Path already correct here
             } else {
-              navigate('/dashboard', { replace: true });
+              navigate('/dashboard', { replace: true }); // Path already correct here
             }
           }
         });
@@ -150,8 +150,8 @@ const AppContent: React.FC = () => {
             <>
               <Route path="/admin/dashboard" element={<AdminDashboard session={session} />} />
               <Route path="/admin/users" element={<AdminUsers session={session} />} />
-              <Route path="/admin/designs" element={<AdminDesigns session={session} />} />
-              <Route path="/admin/orders" element={<AdminOrderManagement session={session} />} />
+              <Route path="/admin/admindesigns" element={<AdminDesigns session={session} />} />
+              <Route path="/admin/adminordermanagement" element={<AdminOrderManagement session={session} />} />
             </>
           )}
           {/* Fallback for unauthorized admin access */}

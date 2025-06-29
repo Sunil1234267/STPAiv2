@@ -94,14 +94,14 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ session }) => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-50 dark:bg-gray-950 text-gray-900 dark:text-white flex items-center justify-center transition-colors duration-300">
+      <div className="min-h-screen bg-slate-50 dark:bg-black text-gray-900 dark:text-white flex items-center justify-center transition-colors duration-300">
         <div className="text-xl font-semibold text-emerald-600 dark:text-emerald-400">Loading admin dashboard...</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-gray-950 text-gray-900 dark:text-white transition-colors duration-300 p-4">
+    <div className="min-h-screen bg-slate-50 dark:bg-black text-gray-900 dark:text-white transition-colors duration-300 p-4">
       <div className="container mx-auto py-8">
         <ScrollReveal delay={0}>
           <h1 className="text-4xl font-extrabold text-gray-800 dark:text-white text-center mb-6">
@@ -129,42 +129,42 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ session }) => {
             </ScrollReveal>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               <ScrollReveal delay={300}>
-                <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center border border-slate-200 dark:border-gray-700">
+                <div className="bg-white dark:bg-gray-900 rounded-lg shadow-md p-6 text-center border border-slate-200 dark:border-gray-800">
                   <Users size={48} className="text-emerald-600 dark:text-emerald-400 mx-auto mb-4" />
                   <h3 className="text-xl font-semibold text-gray-800 dark:text-white">Total Users</h3>
                   <p className="text-4xl font-bold text-emerald-600 dark:text-emerald-400">{stats.totalUsers}</p>
                 </div>
               </ScrollReveal>
               <ScrollReveal delay={400}>
-                <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center border border-slate-200 dark:border-gray-700">
+                <div className="bg-white dark:bg-gray-900 rounded-lg shadow-md p-6 text-center border border-slate-200 dark:border-gray-800">
                   <Palette size={48} className="text-cyan-600 dark:text-cyan-400 mx-auto mb-4" />
                   <h3 className="text-xl font-semibold text-gray-800 dark:text-white">Total Designs</h3>
                   <p className="text-4xl font-bold text-cyan-600 dark:text-cyan-400">{stats.totalDesigns}</p>
                 </div>
               </ScrollReveal>
               <ScrollReveal delay={500}>
-                <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center border border-slate-200 dark:border-gray-700">
+                <div className="bg-white dark:bg-gray-900 rounded-lg shadow-md p-6 text-center border border-slate-200 dark:border-gray-800">
                   <Layers size={48} className="text-violet-600 dark:text-violet-400 mx-auto mb-4" />
                   <h3 className="text-xl font-semibold text-gray-800 dark:text-white">Total Collections</h3>
                   <p className="text-4xl font-bold text-violet-600 dark:text-violet-400">{stats.totalCollections}</p>
                 </div>
               </ScrollReveal>
               <ScrollReveal delay={600}>
-                <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center border border-slate-200 dark:border-gray-700">
+                <div className="bg-white dark:bg-gray-900 rounded-lg shadow-md p-6 text-center border border-slate-200 dark:border-gray-800">
                   <ShoppingBag size={48} className="text-rose-600 dark:text-rose-400 mx-auto mb-4" />
                   <h3 className="text-xl font-semibold text-gray-800 dark:text-white">Total Orders</h3>
                   <p className="text-4xl font-bold text-rose-600 dark:text-rose-400">{stats.totalOrders}</p>
                 </div>
               </ScrollReveal>
               <ScrollReveal delay={700}>
-                <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center border border-slate-200 dark:border-gray-700">
+                <div className="bg-white dark:bg-gray-900 rounded-lg shadow-md p-6 text-center border border-slate-200 dark:border-gray-800">
                   <Clock size={48} className="text-amber-600 dark:text-amber-400 mx-auto mb-4" />
                   <h3 className="text-xl font-semibold text-gray-800 dark:text-white">Pending Orders</h3>
                   <p className="text-4xl font-bold text-amber-600 dark:text-amber-400">{stats.pendingOrders}</p>
                 </div>
               </ScrollReveal>
               <ScrollReveal delay={800}>
-                <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center border border-slate-200 dark:border-gray-700">
+                <div className="bg-white dark:bg-gray-900 rounded-lg shadow-md p-6 text-center border border-slate-200 dark:border-gray-800">
                   <DollarSign size={48} className="text-green-600 dark:text-green-400 mx-auto mb-4" />
                   <h3 className="text-xl font-semibold text-gray-800 dark:text-white">Total Revenue</h3>
                   <p className="text-4xl font-bold text-green-600 dark:text-green-400">${stats.totalRevenue.toFixed(2)}</p>
@@ -185,7 +185,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ session }) => {
               <ScrollReveal key={item.name} delay={index * 100 + 1000}>
                 <div
                   onClick={() => navigate(item.link)}
-                  className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 flex flex-col items-center text-center cursor-pointer transform hover:scale-105 transition-all duration-300 border border-slate-200 dark:border-gray-700"
+                  className="bg-white dark:bg-gray-900 rounded-lg shadow-lg p-6 flex flex-col items-center text-center cursor-pointer transform hover:scale-105 transition-all duration-300 border border-slate-200 dark:border-gray-800"
                 >
                   <item.icon size={48} className="text-emerald-600 dark:text-emerald-400 mb-4" />
                   <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-2">
